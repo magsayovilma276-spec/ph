@@ -1667,9 +1667,9 @@
 		    </div>
 		</div>
 		
-	   <!-- Modal for Analysis Results Record (Result Info) -->
+
     <!-- Modal for Analysis Results Record (Result Info) -->
-    <div id="analysis-results-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden p-4 overflow-y-auto">
+   <div id="analysis-results-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-5xl max-h-[90vh] overflow-y-auto p-6 md:p-8 relative">
             <button onclick="closeAnalysisResultsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold p-1">
                 <i class="fa-solid fa-xmark"></i>
@@ -1689,9 +1689,10 @@
                                     <th class="p-2 border border-slate-300">MAXIMUM ALLOWABLE LEVEL</th>
                                     <th class="p-2 border border-slate-300">REFERENCE STANDARD METHOD</th>
                                     <th class="p-2 border border-slate-300">STATUS (Whether it passed)</th>
+                                    <th class="p-2 border border-slate-300 w-16">ACTION</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="analysisResultsTableBody">
                                 <tr>
                                     <td class="p-2 border border-slate-300"><input type="text" name="results[]" value="" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-sky-500"></td>
                                     <td class="p-2 border border-slate-300">
@@ -1740,12 +1741,25 @@
                                             <option value="FAIL">FAIL</option>
                                         </select>
                                     </td>
+                                    <!-- 紧跟在 STATUS 后面的删除按钮列 -->
+                                    <td class="p-2 border border-slate-300 text-center">
+                                        <button type="button" onclick="removeAnalysisRow(this)" class="bg-rose-500 hover:bg-rose-600 text-white px-2 py-1 rounded transition">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- 表格行操作按钮（仅保留 Add Row） -->
+                    <div class="flex gap-3 mb-4">
+                        <button type="button" onclick="addAnalysisRow()" class="bg-sky-600 hover:bg-sky-700 text-white font-medium px-4 py-1.5 rounded-lg text-xs shadow transition flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> Add Row
+                        </button>
+                    </div>
                     
-                    <!-- 新增：REFERENCES 和 REMARKS 字段区块 -->
+                    <!-- REFERENCES 和 REMARKS 字段区块 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 pb-4 text-xs">
                         <!-- REFERENCES -->
                         <div class="space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-200">
@@ -2772,6 +2786,77 @@
 				        alert('Selected batch record not found.');
 				    }
 				}
+				
+				function addAnalysisRow() {
+            const tbody = document.getElementById('analysisResultsTableBody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td class="p-2 border border-slate-300"><input type="text" name="results[]" value="" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-sky-500"></td>
+                <td class="p-2 border border-slate-300">
+                    <select name="unit[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-sky-500">
+                        <option value="-">-</option>
+                        <option value="PN/100 mL">PN/100 mL</option>
+                        <option value="FU/mL">FU/mL</option>
+                        <option value="g/L">g/L</option>
+                        <option value="U">U</option>
+                        <option value="TU">TU</option>
+                    </select>
+                </td>
+                <td class="p-2 border border-slate-300">
+                    <select name="max_allowable[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-sky-500">
+                        <option value="-">-</option>
+                        <option value="<1.1 MPN/100 mL">&lt;1.1 MPN/100 mL</option>
+                        <option value="<500 CFU/mL">&lt;500 CFU/mL</option>
+                        <option value="0.0100 mg/L">0.0100 mg/L</option>
+                        <option value="0.0030 mg/L">0.0030 mg/L</option>
+                        <option value="10 CU">10 CU</option>
+                        <option value="0.30 mg/L - 1.50 mg/L">0.30 mg/L - 1.50 mg/L</option>
+                        <option value="50.00 mg/L">50.00 mg/L</option>
+                        <option value="600.00 mg/L">600.00 mg/L</option>
+                        <option value="5.00 NTU">5.00 NTU</option>
+                    </select>
+                </td>
+                <td class="p-2 border border-slate-300">
+                    <select name="reference[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-sky-500">
+                        <option value="-">-</option>
+                        <option value="SMEWW 9221. Multiple Fermentation Technique">SMEWW 9221. Multiple Fermentation Technique</option>
+                        <option value="SMEWW 9223. Enzyme Substrate Coliform Test">SMEWW 9223. Enzyme Substrate Coliform Test</option>
+                        <option value="SMEWW 9215 B. Pour Plate Method">SMEWW 9215 B. Pour Plate Method</option>
+                        <option value="SMEWW 9215 C. Spread Plate Method">SMEWW 9215 C. Spread Plate Method</option>
+                        <option value="SMEWW 3120 B. Inductively Coupled Plasma Method">SMEWW 3120 B. Inductively Coupled Plasma Method</option>
+                        <option value="SMEWW 4500-NO3- B. Spectrophotometric Screening Method">SMEWW 4500-NO3- B. Spectrophotometric Screening Method</option>
+                        <option value="SMEWW 2120 B. Visual Comparison Method">SMEWW 2120 B. Visual Comparison Method</option>
+                        <option value="SMEWW 2130 B. Nephelometric Method">SMEWW 2130 B. Nephelometric Method</option>
+                        <option value="SMEWW 2540 C. Total Dissolved Solids Dried at 180°C">SMEWW 2540 C. Total Dissolved Solids Dried at 180°C</option>
+                        <option value="SMEWW 4500-CI G. DPD Colorimetric Method">SMEWW 4500-CI G. DPD Colorimetric Method</option>
+                    </select>
+                </td>
+                <td class="p-2 border border-slate-300">
+                    <select name="status[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-sky-500">
+                        <option value="-">-</option>
+                        <option value="PASS">PASS</option>
+                        <option value="FAIL">FAIL</option>
+                    </select>
+                </td>
+                <td class="p-2 border border-slate-300 text-center">
+                    <button type="button" onclick="removeAnalysisRow(this)" class="bg-rose-500 hover:bg-rose-600 text-white px-2 py-1 rounded transition">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+        }
+
+        function removeAnalysisRow(button) {
+            const tbody = document.getElementById('analysisResultsTableBody');
+            const rows = tbody.getElementsByTagName('tr');
+            // 确保至少保留一行，避免表格完全清空
+            if (rows.length > 1) {
+                button.closest('tr').remove();
+            } else {
+                alert("At least one row must be kept.");
+            }
+        }
 				
 				
 				
