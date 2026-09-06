@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain of Custody Record - PHO-QATD LIMS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-xl text-slate-900 font-bold flex items-center justify-center w-10 h-10 shadow-sm">
+                    <i class="fa-solid fa-flask-vial text-xl text-sky-600"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base leading-tight tracking-wide">PHO-QATD LIMS Portal</h1>
+                    <p class="text-[10px] text-slate-400">Province of Surigao del Sur - Laboratory Information System</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    System Online
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Card Container -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- Official Header Section -->
+            <div class="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    
+                    <!-- Official Logo 1 -->
+                    <div class="w-32 h-32 flex-shrink-0 flex items-center justify-center bg-white p-1 rounded-2xl shadow-sm border border-slate-200">
+                        <img src="../shared/image/logo1.png" data-logo alt="Surigao del Sur Seal" class="max-h-full max-w-full object-contain">
+                    </div>
+
+                    <!-- Center Header Titles -->
+                    <div class="text-center space-y-1 flex-1">
+                        <h3 class="text-xs uppercase tracking-widest text-slate-500 font-semibold">Republic of the Philippines</h3>
+                        <h2 class="text-sm md:text-base font-bold text-slate-800">Province of Surigao del Sur</h2>
+                        <h1 class="text-base md:text-xl font-black text-slate-900 tracking-tight">QUALITY ASSURANCE AND TESTING DIVISION</h1>
+                        <h2 class="text-xs md:text-sm font-bold text-sky-700">LABORATORY FOR DRINKING WATER ANALYSIS</h2>
+                        <p class="text-[11px] text-slate-500 pt-1 font-mono">Capitol Road, Telaje, Tandag City, Surigao del Sur &middot; +639 60 592 0041 &middot; qatdprovincialhealthoffice@gmail.com</p>
+                    </div>
+
+                    <!-- Official Logo 2 (DOH Accredited) -->
+                    <div class="w-32 h-32 flex-shrink-0 flex items-center justify-center bg-white p-1 rounded-2xl shadow-sm border border-slate-200">
+                        <img src="../shared/image/logo2.png" data-logo alt="DOH Accredited Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                </div>
+
+                <!-- Sampling Meta Information (populated from sessionStorage) -->
+                <div class="mt-6 pt-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-medium text-slate-700">
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <span class="text-slate-400">Sampled by:</span>
+                        <span id="meta-collector" class="font-bold text-slate-900">—</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <span class="text-slate-400">Address:</span>
+                        <span id="meta-address" class="font-bold text-slate-900">—</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <span class="text-slate-400">Batch No:</span>
+                        <span id="meta-batch" class="font-mono font-bold text-sky-700">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Body Section -->
+            <div class="p-6 md:p-8 space-y-6">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Sample Collection Entries</h3>
+                    <span class="text-xs text-slate-500">Showing all records from Chain of Custody</span>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider">
+                                <th class="p-3.5 border-b border-slate-200 font-bold whitespace-nowrap">Sample Code/ID</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold">Sample Description</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold whitespace-nowrap">Date Sampled</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold whitespace-nowrap">Time</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold text-center whitespace-nowrap">Bottles</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold">Required Test</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold whitespace-nowrap">Field Data</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold text-right whitespace-nowrap">Unit Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sampleTableBody" class="text-xs divide-y divide-slate-200">
+                            <!-- Populated from sessionStorage -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer Bottom Terms & User Confirmation Area -->
+                <div class="mt-12 pt-6 border-t border-slate-200 space-y-6">
+                    <!-- Terms & Conditions Section -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                        <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">PLEASE READ CAREFULLY (Terms & Conditions):</h4>
+                        <ul class="text-xs text-slate-600 space-y-2.5 list-disc pl-5 leading-relaxed">
+                            <li>In compliance with the Data Privacy Act of 2012 and its Implementing Rules and Regulations, I authorize PHO-QATD to use and process my personal information. I also acknowledge and warrant that I have obtained the necessary consent from all concerned parties, and I hold PHO-QATD free and indemnified from any complaint arising from the use of such information.</li>
+                            <li>Test reports that contain a conformity statement shall include the measurement of uncertainty when applicable. I hereby accept the decision rule established by PHO-QATD regarding compliance with the standards.</li>
+                            <li>For physico-chemical samples, unless otherwise requested or deemed necessary, all remaining samples will be disposed of one month after the date of receipt.</li>
+                            <li>A certified true copy of this document may be issued upon request.</li>
+                        </ul>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-end gap-6">
+                        <div class="text-xs text-slate-500 italic">
+                            Please review all sample collection details before final confirmation.
+                        </div>
+                        <div class="flex flex-col items-center sm:items-end gap-4 w-full md:w-auto">
+                            <div class="text-center w-full sm:w-72">
+                                <div class="border-b-2 border-rose-500 pb-1 mb-1 font-bold text-sm text-slate-800 bg-rose-50/50 rounded-t-lg">
+                                    <input type="text" id="usernameInput" required placeholder="Please enter representative name *" class="w-full text-center text-xs text-rose-600 placeholder-rose-500 font-semibold bg-transparent outline-none">
+                                </div>
+                                <div class="text-[11px] font-bold text-slate-700 uppercase tracking-wider">Customer / Representative <span class="text-rose-500">*</span></div>
+                                <div class="text-[9px] text-slate-400">Signature over Printed Name</div>
+                            </div>
+                            <button onclick="confirmSubmission()" class="w-full sm:w-72 px-8 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Confirm Record</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../shared/js/storage-service.js"></script>
+    <script>
+        // Populate page from sessionStorage
+        window.addEventListener('DOMContentLoaded', function () {
+            const data = StorageService.getRFAData();
+
+            if (!data) {
+                alert('No RFA data found. Please start from the RFA page.');
+                window.location.href = 'rfa.html';
+                return;
+            }
+
+            // Populate meta header
+            StorageService.safeSetText(document.getElementById('meta-collector'), data.collectorName || 'N/A');
+            StorageService.safeSetText(document.getElementById('meta-address'), data.address || 'N/A');
+            StorageService.safeSetText(document.getElementById('meta-batch'), data.id || 'N/A');
+
+            // Populate sample table
+            const tbody = document.getElementById('sampleTableBody');
+            if (data.samples && data.samples.length > 0) {
+                data.samples.forEach(function (sample, index) {
+                    const testNames = (sample.tests || []).map(function (t) { return t.name; }).join(', ') || '—';
+                    
+                    // 计算当前样本的单项费用总额 (Unit Fee)
+                    let sampleTotalFee = 0;
+                    if (sample.tests && sample.tests.length > 0) {
+                        sample.tests.forEach(function(t) {
+                            const p = parseFloat(t.price || 0);
+                            const q = parseInt(t.quantity || 1);
+                            sampleTotalFee += p * q;
+                        });
+                    }
+                    const formattedFee = '₱ ' + sampleTotalFee.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-50 transition align-middle';
+                    tr.innerHTML =
+                        '<td class="p-3.5 font-mono text-xs font-bold text-sky-700 whitespace-nowrap">' + StorageService.escapeHtml(data.id || '—') + '-S' + (index + 1) + '</td>' +
+                        '<td class="p-3.5 font-medium text-slate-900 min-w-[150px]">' + StorageService.escapeHtml(data.customerName || '—') + '</td>' +
+                        '<td class="p-3.5 text-slate-600 font-mono text-xs whitespace-nowrap">' + new Date().toISOString().split('T')[0] + '</td>' +
+                        '<td class="p-3.5 text-slate-600 font-mono text-xs whitespace-nowrap">—</td>' +
+                        '<td class="p-3.5 text-center font-bold text-slate-700 whitespace-nowrap">1</td>' +
+                        '<td class="p-3.5 text-xs text-slate-700 min-w-[200px] max-w-xs leading-relaxed">' + StorageService.escapeHtml(testNames) + '</td>' +
+                        '<td class="p-3.5 font-mono text-xs text-slate-600 whitespace-nowrap">&lt;10ºC</td>' +
+                        '<td class="p-3.5 text-xs text-right font-mono font-bold text-slate-800 whitespace-nowrap">' + formattedFee + '</td>';
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-500 text-xs">No sample entries found.</td></tr>';
+            }
+        });
+
+        document.getElementById('usernameInput').addEventListener('input', function () {
+            if (this.value.trim() !== '') {
+                this.classList.remove('border-rose-600', 'animate-pulse');
+            }
+        });
+
+        function confirmSubmission() {
+            const usernameInput = document.getElementById('usernameInput');
+            const username = usernameInput.value.trim();
+
+            if (!username) {
+                alert('Please provide a signature/representative name before confirming.');
+                usernameInput.classList.add('border-rose-600', 'animate-pulse');
+                usernameInput.focus();
+                return;
+            }
+            usernameInput.classList.remove('border-rose-600', 'animate-pulse');
+
+            // Update RFA data with signature and advance status to 'customer confirm'
+            const data = StorageService.getRFAData();
+            if (data) {
+                StorageService.updateRFAData({ signature: username });
+                StorageService.updateSampleStatus(data.id, 'customer confirm', 'Customer confirmed: ' + username);
+            }
+
+            alert('Chain of Custody record successfully confirmed by representative: ' + username + '!');
+            window.location.href = 'billing.html';
+        }
+    </script>
+</body>
+</html>

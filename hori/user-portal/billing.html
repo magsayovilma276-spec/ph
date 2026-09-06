@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order of Payment - PHO-QATD LIMS Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ✅ 引入你刚刚分离出去的打印样式 -->
+    <!-- 注意修改 href 为你存放该 css 的实际路径 -->
+    <link rel="stylesheet" href="../shared/css/print-report.css" media="print">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            body { background: white !important; }
+            header, .no-print { display: none !important; }
+            main { padding: 0 !important; max-width: 100% !important; }
+            .shadow-xl, .border { box-shadow: none !important; border: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-45">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-xl text-slate-900 font-bold flex items-center justify-center w-10 h-10 shadow-sm">
+                    <i class="fa-solid fa-file-invoice-dollar text-xl text-emerald-600"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base leading-tight tracking-wide">PHO-QATD LIMS Portal</h1>
+                    <p class="text-[10px] text-slate-400">Province of Surigao del Sur - Laboratory Information System</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    System Online
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Card Container -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- Official Header Section -->
+            <div class="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    
+                    <!-- Official Logo 1 -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../shared/image/logo1.png" data-logo alt="Surigao del Sur Seal" class="w-full h-full object-contain">
+                    </div>
+                    
+
+                    <!-- Center Header Titles -->
+                    <div class="text-center space-y-1 flex-1">
+                        <h3 class="text-xs uppercase tracking-widest text-slate-500 font-semibold">Republic of the Philippines</h3>
+                        <h2 class="text-sm md:text-base font-bold text-slate-800">Province of Surigao del Sur</h2>
+                        <h1 class="text-base md:text-xl font-black text-slate-900 tracking-tight">QUALITY ASSURANCE AND TESTING DIVISION</h1>
+                        <h2 class="text-xs md:text-sm font-bold text-sky-700">LABORATORY FOR DRINKING WATER ANALYSIS</h2>
+                        <p class="text-[11px] text-slate-500 pt-1 font-mono">Capitol Road, Telaje, Tandag City, Surigao del Sur &middot; +639 60 592 0041 &middot; qatdprovincialhealthoffice@gmail.com</p>
+                    </div>
+
+                    <!-- Official Logo 2 (DOH Accredited) -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../shared/image/logo2.png" data-logo alt="DOH Accredited Logo" class="w-full h-full object-contain">
+                    </div>
+                </div>
+
+                <!-- Transaction Meta Information Box (populated from sessionStorage) -->
+                <div class="mt-6 pt-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium text-slate-700">
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-1">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Payor</span>
+                        <div id="meta-payor" class="font-bold text-slate-900 text-sm">—</div>
+                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Address</span>
+                        <div id="meta-address" class="font-bold text-slate-900 text-sm">—</div>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-1">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Batch No</span>
+                        <div id="meta-batch" class="font-bold text-sky-700 text-sm font-mono">—</div>
+                        
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Date Issued</span>
+                                <div id="meta-date" class="font-bold text-slate-900 text-sm">—</div>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Status</span>
+                                <div class="pt-0.5">
+                                    <span id="payment-status-badge" class="inline-block font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded uppercase text-[10px] border border-amber-200">Pending Payment</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Body Section -->
+            <div class="p-6 md:p-8 space-y-6">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Order of Payment Entries</h3>
+                    <span class="text-xs text-slate-500">Billing Statement & Fee Breakdown</span>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-emerald-700 text-white text-xs uppercase tracking-wider">
+                                <th class="p-3.5 border-b border-slate-200 font-bold">Description</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold text-center">Quantity</th>
+                                <th class="p-3.5 border-b border-slate-200 font-bold text-right">Rate</th>
+                                <th class="p-3 border-b border-slate-200 font-bold text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billing-entries" class="text-sm divide-y divide-slate-200">
+                            <!-- Populated from sessionStorage -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-slate-50 font-black">
+                                <td colspan="3" class="p-4 text-right uppercase text-xs text-slate-700">Total Amount Due</td>
+                                <td id="grand-total-cell" class="p-4 text-right text-emerald-800 text-lg font-mono">₱0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Footer Bottom User Confirmation Area -->
+                <div class="mt-12 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-between items-end gap-6 no-print">
+                    <div class="text-xs text-slate-500 italic">
+                        Please verify all billing and transaction information before printing or final processing.
+                    </div>
+                    <div class="flex flex-col items-center sm:items-end gap-4 w-full md:w-auto no-print">
+                        <button onclick="window.print()" class="no-print w-full sm:w-72 px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Print Document</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../shared/js/storage-service.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const data = StorageService.getRFAData();
+
+            if (!data) {
+                alert('No billing data found. Please start from the RFA page.');
+                window.location.href = 'rfa.html';
+                return;
+            }
+
+            // Populate meta section
+            StorageService.safeSetText(document.getElementById('meta-payor'), data.customerName || 'N/A');
+            StorageService.safeSetText(document.getElementById('meta-address'), data.address || 'N/A');
+            StorageService.safeSetText(document.getElementById('meta-batch'), data.id || 'N/A');
+            StorageService.safeSetText(document.getElementById('meta-date'), (data.createdAt || '').split('T')[0] || 'N/A');
+
+            // Populate billing entries table
+            const tbody = document.getElementById('billing-entries');
+            let grandTotal = 0;
+
+            if (data.samples && data.samples.length > 0) {
+                data.samples.forEach(function (sample) {
+                    (sample.tests || []).forEach(function (test) {
+                        const price = parseFloat(test.price) || 0;
+                        grandTotal += price;
+
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-slate-50 transition';
+                        tr.innerHTML =
+                            '<td class="p-3.5 font-medium text-slate-900">' + StorageService.escapeHtml(test.name) + '</td>' +
+                            '<td class="p-3.5 text-center font-bold text-slate-700">1</td>' +
+                            '<td class="p-3.5 text-right font-mono text-slate-600">₱' + price.toLocaleString('en-US', { minimumFractionDigits: 2 }) + '</td>' +
+                            '<td class="p-3.5 text-right font-mono font-bold text-slate-900">₱' + price.toLocaleString('en-US', { minimumFractionDigits: 2 }) + '</td>';
+                        tbody.appendChild(tr);
+                    });
+                });
+            }
+
+            if (grandTotal === 0 && data.grandTotal) {
+                // Fall back to the stored grandTotal string from the RFA form
+                StorageService.safeSetText(document.getElementById('grand-total-cell'), data.grandTotal);
+            } else {
+                StorageService.safeSetText(
+                    document.getElementById('grand-total-cell'),
+                    '₱' + grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })
+                );
+            }
+
+            // Advance status to 'Pending Payment' if still at 'customer confirm'
+            if (data.status === 'customer confirm') {
+                StorageService.updateSampleStatus(data.id, 'Pending Payment', 'Billing page loaded');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Accomplishment Report - PHO-QATD LIMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .table-custom { border-collapse: collapse; width: 100%; table-layout: fixed; }
+        .table-custom th, .table-custom td { border: 1px solid #cbd5e1; padding: 10px; text-align: center; vertical-align: middle; }
+        .header-cell { background-color: #f8fafc; font-weight: 800; color: #1e293b; }
+        .text-red { color: #dc2626; font-weight: bold; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        button { transition: all 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 p-4 md:p-10">
+
+    <main class="max-w-7xl mx-auto bg-white rounded-3xl shadow-2xl border border-slate-100 p-8">
+        
+        <!-- Official Header -->
+        <div class="border-b border-slate-100 pb-8 mb-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Official Logo 1 -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo1.png" data-logo alt="Surigao del Sur Seal" class="w-full h-full object-contain">
+                    </div>
+                <div class="text-center space-y-1.5 flex-1">
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-slate-400 font-bold">Republic of the Philippines</h3>
+                    <h2 class="text-lg font-bold text-slate-700">Province of Surigao del Sur</h2>
+                    <h1 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">QUALITY ASSURANCE AND TESTING DIVISION</h1>
+                    <h2 class="text-sm font-semibold text-sky-700 uppercase tracking-wide">Laboratory for Drinking Water Analysis</h2>
+                    <p class="text-[11px] text-slate-400 pt-2 font-mono italic">Capitol Road, Telaje, Tandag City, Surigao del Sur &middot; qatdprovincialhealthoffice@gmail.com</p>
+                </div>
+                <!-- Official Logo 2 (DOH Accredited) -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo2.png" data-logo alt="DOH Accredited Logo" class="w-full h-full object-contain">
+                    </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="mt-8 pt-6 border-t border-slate-100 text-xs font-mono">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                    <div>
+                        <label for="filter-month" class="block text-slate-500 font-bold mb-2 uppercase tracking-wider">Month (Exclusive)</label>
+                        <select id="filter-month" onchange="handleMonthChange()" class="w-full h-[46px] bg-slate-50 border border-slate-200 rounded-xl px-4 text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-200 transition">
+                            <option value="">-- Choose Month --</option>
+                            <option value="JANUARY">January</option>
+                            <option value="FEBRUARY">February</option>
+                            <option value="MARCH">March</option>
+                            <option value="APRIL">April</option>
+                            <option value="MAY">May</option>
+                            <option value="JUNE" selected>June</option>
+                            <option value="JULY">July</option>
+                            <option value="AUGUST">August</option>
+                            <option value="SEPTEMBER">September</option>
+                            <option value="OCTOBER">October</option>
+                            <option value="NOVEMBER">November</option>
+                            <option value="DECEMBER">December</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-year" class="block text-slate-500 font-bold mb-2 uppercase tracking-wider">Year (Exclusive)</label>
+                        <div id="year-container" class="h-[46px] bg-slate-50 border border-slate-200 rounded-xl px-2 flex items-center justify-between transition">
+                            <button type="button" id="year-minus" onclick="adjustYear(-1)" class="w-8 h-8 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                            </button>
+                            <input type="number" id="filter-year" value="" oninput="handleYearInput()" placeholder="Enter Year" class="w-full bg-transparent text-center font-bold text-slate-800 text-sm focus:outline-none" />
+                            <button type="button" id="year-plus" onclick="adjustYear(1)" class="w-8 h-8 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 sm:col-span-2 lg:col-span-2">
+                        <button onclick="handleSearch()" class="flex-1 h-[46px] bg-sky-600 hover:bg-sky-700 text-white px-6 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center shadow-lg shadow-sky-100 transition">
+                            <i class="fa-solid fa-search mr-2"></i> Search
+                        </button>
+                        <button onclick="handleReset()" class="h-[46px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-5 rounded-xl text-xs font-bold uppercase tracking-widest transition flex items-center justify-center">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Table -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm">
+            <table class="table-custom text-[11px]">
+                <thead>
+                    <tr class="header-cell">
+                        <th rowspan="2" id="table-first-col-header" class="w-32 bg-slate-100">MUNICIPALITIES / CITIES</th>
+                        <th rowspan="2" class="w-20 bg-slate-100">SAMPLES RECEIVED</th>
+                        <th colspan="14" class="text-sky-800 bg-sky-50">NUMBER OF PASS/FAIL PER PARAMETER</th>
+                    </tr>
+                    <tr class="header-cell text-[10px]">
+                        <th colspan="2">Color</th>
+                        <th colspan="2">Turbidity</th>
+                        <th colspan="4">Heavy Metals</th>
+                        <th colspan="2">Nitrate</th>
+                        <th colspan="2">TDS</th>
+                        <th colspan="2">Chlorine</th>
+                    </tr>
+                    <tr class="header-cell text-[9px] text-slate-500 uppercase">
+                        <td></td><td></td>
+                        <td>P</td><td>F</td><td>P</td><td>F</td>
+                        <td>As P</td><td>As F</td><td>Cd P</td><td>Cd F</td>
+                        <td>P</td><td>F</td><td>P</td><td>F</td><td>P</td><td>F</td>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y divide-slate-100"></tbody>
+            </table>
+        </div>
+
+        <!-- Print Button -->
+        <div class="mt-6 flex justify-end">
+            <button onclick="window.print()" class="bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center shadow-md transition">
+                <i class="fa-solid fa-print mr-2"></i> Print Report
+            </button>
+        </div>
+    </main>
+
+    <script src="../../shared/js/storage-service.js"></script>
+    <script src="../../shared/js/role-service.js"></script>
+    <script>
+        // Permission guard
+        initPageGuard('summary-report');
+
+        const regionData = [
+            { name: "CARRASCAL", samples: 1, cP: 1, cF: 0, tP: 1, tF: 0, asP: 1, asF: 0, cdP: 1, cdF: 0, nP: 1, nF: 0, tdsP: 0, tdsF: 1, clP: 0, clF: 1 },
+            { name: "CANTILAN", samples: 1, cP: 1, cF: 0, tP: 1, tF: 0, asP: 1, asF: 0, cdP: 1, cdF: 0, nP: 1, nF: 0, tdsP: 0, tdsF: 1, clP: 0, clF: 1 },
+            { name: "LINGIG", samples: 2, cP: 2, cF: 0, tP: 2, tF: 0, asP: 2, asF: 0, cdP: 2, cdF: 0, nP: 1, nF: 0, tdsP: 2, tdsF: 0, clP: 0, clF: 0 },
+            { name: "TAGO", samples: 1, cP: 1, cF: 0, tP: 1, tF: 0, asP: 1, asF: 0, cdP: 1, cdF: 0, nP: 1, nF: 0, tdsP: 1, tdsF: 0, clP: 0, clF: 1 },
+            { name: "TANDAG CITY", samples: 2, cP: 0, cF: 0, tP: 0, tF: 0, asP: 0, asF: 0, cdP: 0, cdF: 0, nP: 0, nF: 0, tdsP: 0, tdsF: 0, clP: 0, clF: 2 }
+        ];
+
+        const monthsOfYear = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+
+        function renderTableForMonth() {
+            document.getElementById('table-first-col-header').innerText = "MUNICIPALITIES / CITIES";
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = "";
+            let totSamples = 0, totCP = 0, totTP = 0, totAsP = 0, totCdP = 0, totNP = 0, totTdsP = 0, totClP = 0;
+            regionData.forEach(function (item) {
+                totSamples += item.samples; totCP += item.cP; totTP += item.tP; totAsP += item.asP;
+                totCdP += item.cdP; totNP += item.nP; totTdsP += item.tdsP; totClP += item.clP;
+                tbody.innerHTML += '<tr class="hover:bg-slate-50 transition"><td>' + item.name + '</td><td>' + item.samples + '</td>' +
+                    '<td>' + item.cP + '</td><td class="text-red">' + item.cF + '</td>' +
+                    '<td>' + item.tP + '</td><td class="text-red">' + item.tF + '</td>' +
+                    '<td>' + item.asP + '</td><td class="text-red">' + item.asF + '</td>' +
+                    '<td>' + item.cdP + '</td><td class="text-red">' + item.cdF + '</td>' +
+                    '<td>' + item.nP + '</td><td class="text-red">' + item.nF + '</td>' +
+                    '<td>' + item.tdsP + '</td><td class="text-red">' + item.tdsF + '</td>' +
+                    '<td>' + item.clP + '</td><td class="text-red">' + item.clF + '</td></tr>';
+            });
+            tbody.innerHTML += '<tr class="font-black bg-slate-50 text-slate-800"><td>SUB-TOTAL</td><td>' + totSamples + '</td>' +
+                '<td>' + totCP + '</td><td></td><td>' + totTP + '</td><td></td><td>' + totAsP + '</td><td></td>' +
+                '<td>' + totCdP + '</td><td></td><td>' + totNP + '</td><td></td><td>' + totTdsP + '</td><td></td>' +
+                '<td>' + totClP + '</td><td></td></tr>';
+        }
+
+        function renderTableForYear() {
+            document.getElementById('table-first-col-header').innerText = "MONTHS";
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = "";
+            let totSamples = 0, totCP = 0, totTP = 0, totAsP = 0, totCdP = 0, totNP = 0, totTdsP = 0, totClP = 0;
+            monthsOfYear.forEach(function (month, index) {
+                const samples = 5 + (index % 3);
+                totSamples += samples; totCP += 4; totTP += 4; totAsP += 5; totCdP += 5; totNP += 4; totTdsP += 4; totClP += 3;
+                tbody.innerHTML += '<tr class="hover:bg-slate-50 transition"><td>' + month + '</td><td>' + samples + '</td>' +
+                    '<td>4</td><td class="text-red">1</td><td>4</td><td class="text-red">1</td><td>5</td><td class="text-red">0</td>' +
+                    '<td>5</td><td class="text-red">0</td><td>4</td><td class="text-red">1</td><td>4</td><td class="text-red">1</td>' +
+                    '<td>3</td><td class="text-red">2</td></tr>';
+            });
+            tbody.innerHTML += '<tr class="font-black bg-slate-50 text-slate-800"><td>TOTAL / YR</td><td>' + totSamples + '</td>' +
+                '<td>' + totCP + '</td><td></td><td>' + totTP + '</td><td></td><td>' + totAsP + '</td><td></td>' +
+                '<td>' + totCdP + '</td><td></td><td>' + totNP + '</td><td></td><td>' + totTdsP + '</td><td></td>' +
+                '<td>' + totClP + '</td><td></td></tr>';
+        }
+
+        function handleMonthChange() {
+            const monthSelect = document.getElementById('filter-month');
+            const yearInput = document.getElementById('filter-year');
+            const yearContainer = document.getElementById('year-container');
+            if (monthSelect.value !== "") {
+                yearInput.value = "";
+                yearInput.disabled = true;
+                document.getElementById('year-minus').disabled = true;
+                document.getElementById('year-plus').disabled = true;
+                yearContainer.classList.add('opacity-40', 'bg-slate-100', 'cursor-not-allowed');
+                renderTableForMonth();
+            } else {
+                yearInput.disabled = false;
+                document.getElementById('year-minus').disabled = false;
+                document.getElementById('year-plus').disabled = false;
+                yearContainer.classList.remove('opacity-40', 'bg-slate-100', 'cursor-not-allowed');
+            }
+        }
+
+        function handleYearInput() {
+            const monthSelect = document.getElementById('filter-month');
+            const yearInput = document.getElementById('filter-year');
+            if (yearInput.value.trim() !== "") {
+                monthSelect.value = "";
+                monthSelect.disabled = true;
+                monthSelect.classList.add('opacity-40', 'bg-slate-100', 'cursor-not-allowed');
+                renderTableForYear();
+            } else {
+                monthSelect.disabled = false;
+                monthSelect.classList.remove('opacity-40', 'bg-slate-100', 'cursor-not-allowed');
+            }
+        }
+
+        function adjustYear(amount) {
+            const yearInput = document.getElementById('filter-year');
+            yearInput.value = (parseInt(yearInput.value) || new Date().getFullYear()) + amount;
+            handleYearInput();
+        }
+
+        function handleSearch() {
+            const month = document.getElementById('filter-month').value;
+            const year = document.getElementById('filter-year').value;
+            if (month) { renderTableForMonth(); alert('Displaying regional summary for Month: ' + month); }
+            else if (year) { renderTableForYear(); alert('Displaying 12-month summary for Year: ' + year); }
+            else { alert('Please select either a Month or a Year to search.'); }
+        }
+
+        function handleReset() {
+            const monthSelect = document.getElementById('filter-month');
+            monthSelect.value = "JUNE";
+            monthSelect.disabled = false;
+            monthSelect.classList.remove('opacity-40', 'bg-slate-100', 'cursor-not-allowed');
+            const yearInput = document.getElementById('filter-year');
+            yearInput.value = "";
+            yearInput.disabled = false;
+            document.getElementById('year-minus').disabled = false;
+            document.getElementById('year-plus').disabled = false;
+            document.getElementById('year-container').classList.remove('opacity-40', 'bg-slate-100', 'cursor-not-allowed');
+            renderTableForMonth();
+        }
+
+        window.onload = function () { renderTableForMonth(); };
+    </script>
+</body>
+</html>

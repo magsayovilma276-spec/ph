@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain of Custody Details - PHO-QATD LIMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-xl text-slate-900 font-bold flex items-center justify-center w-10 h-10 shadow-sm">
+                    <i class="fa-solid fa-flask-vial text-xl text-sky-600"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base leading-tight tracking-wide">PHO-QATD LIMS Portal</h1>
+                    <p class="text-[10px] text-slate-400">Province of Surigao del Sur - Laboratory Information System</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    System Online
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- Official Header Section -->
+            <div class="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <!-- Official Logo 1 -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo1.png" data-logo alt="Surigao del Sur Seal" class="w-full h-full object-contain">
+                    </div>
+                    
+                    <div class="text-center space-y-1 flex-1">
+                        <h3 class="text-xs uppercase tracking-widest text-slate-500 font-semibold">Republic of the Philippines</h3>
+                        <h2 class="text-sm md:text-base font-bold text-slate-800">Province of Surigao del Sur</h2>
+                        <h1 class="text-base md:text-xl font-black text-slate-900 tracking-tight">QUALITY ASSURANCE AND TESTING DIVISION</h1>
+                        <h2 class="text-xs md:text-sm font-bold text-sky-700">LABORATORY FOR DRINKING WATER ANALYSIS</h2>
+                        <p class="text-[11px] text-slate-500 pt-1 font-mono">Capitol Road, Telaje, Tandag City, Surigao del Sur &middot; +639 60 592 0041 &middot; qatdprovincialhealthoffice@gmail.com</p>
+                    </div>
+                    <!-- Official Logo 2 (DOH Accredited) -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo2.png" data-logo alt="DOH Accredited Logo" class="w-full h-full object-contain">
+                    </div>
+                </div>
+
+                <!-- Query Form Meta Grid -->
+                <div class="mt-6 pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end text-xs font-mono">
+                    <div>
+                        <label class="block text-[11px] text-slate-600 mb-1 font-sans font-bold uppercase">BATCH NO:</label>
+                        <input type="text" id="query-batch" placeholder="Enter Batch No..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 focus:border-sky-600 focus:ring-1 focus:ring-sky-600 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-600 mb-1 font-sans font-bold uppercase">SAMPLED BY:</label>
+                        <input type="text" id="query-sampled-by" placeholder="Enter name..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 focus:border-sky-600 focus:ring-1 focus:ring-sky-600 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-600 mb-1 font-sans font-bold uppercase">PHONE NO:</label>
+                        <input type="text" id="query-phone-no" placeholder="Enter phone no..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 focus:border-sky-600 focus:ring-1 focus:ring-sky-600 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-600 mb-1 font-sans font-bold uppercase">DATE:</label>
+                        <input type="text" id="query-date" placeholder="MM/DD/YYYY" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" lang="en-US" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 focus:border-sky-600 focus:ring-1 focus:ring-sky-600 outline-none">
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="handleSearch()" class="flex-1 bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center justify-center shadow-md transition font-sans h-[34px]">
+                            <i class="fa-solid fa-search mr-1.5"></i> Search
+                        </button>
+                        <button onclick="handleReset()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg text-xs font-bold transition font-sans h-[34px] flex items-center justify-center" title="Reset">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Body Section -->
+            <div class="p-4 md:p-6 space-y-6">
+                
+                <!-- Parent table -->
+                <div>
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-3">
+                        <h3 class="text-xs md:text-sm font-bold text-slate-900 uppercase tracking-wide">Chain of Custody - Batch Summary (Parent Table)</h3>
+                        <span class="text-[11px] text-slate-500">Click View Entries to load details</span>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 text-[10px] md:text-[11px] uppercase tracking-wider">
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold text-center w-10">Select</th>
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold">Batch No</th>
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold">Sampled By</th>
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold">Phone No</th>
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold">Date</th>
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold">Status</th>
+                                    <th class="p-2 md:p-3 border-b border-slate-200 font-bold text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs divide-y divide-slate-200" id="parent-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Child table section -->
+                <div id="child-table-section" class="space-y-6 hidden transition-all duration-300 pt-3 border-t border-slate-200">
+                    <div>
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-3">
+                            <h3 class="text-xs md:text-sm font-bold text-slate-900 uppercase tracking-wide">
+                                Detailed Entries for Batch: <span id="active-batch-label" class="text-sky-700 font-mono"></span>
+                            </h3>
+                            <span class="text-[11px] text-slate-500">Sample Collection & Field Data</span>
+                        </div>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white">
+                            <table class="w-full text-left border-collapse table-auto text-[11px]">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-tight">
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold whitespace-nowrap">Sample Code/ID</th>
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold">Sample Description</th>
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold">Date Sampled</th>
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold">Time</th>
+                                        <th class="py-2 px-1 border-b border-slate-200 font-bold text-center">Bottles</th>
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold min-w-[140px]">Required Test</th>
+                                        <th class="py-2 px-1 border-b border-slate-200 font-bold text-center">Sample Type</th>
+                                        <th class="py-2 px-1 border-b border-slate-200 font-bold text-center">Matrix</th>
+                                        <th class="py-2 px-1 border-b border-slate-200 font-bold text-center">Bottle Type</th>
+                                        <th class="py-2 px-1 border-b border-slate-200 font-bold text-center">Preservation</th>
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold text-center">Field Data</th>
+                                        <th class="py-2 px-2 border-b border-slate-200 font-bold text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 leading-tight" id="child-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Footer Signatures & Compliance Monitor Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+                        <div class="overflow-hidden rounded-xl border border-slate-200">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 text-[10px] uppercase">
+                                        <th class="p-2 border-b">Action</th>
+                                        <th class="p-2 border-b">Printed Name/Signature</th>
+                                        <th class="p-2 border-b">Date</th>
+                                        <th class="p-2 border-b">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-[11px]">
+                                    <tr>
+                                        <td class="p-2 font-medium text-slate-600">Relinquished by:</td>
+                                        <td class="p-2 font-medium">MARIA ELENOR GUARDO</td>
+                                        <td class="p-2"><input type="date" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="e.g. 1:21 PM" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium text-slate-600">Received by:</td>
+                                        <td class="p-2"><input type="text" placeholder="Enter name..." class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="MM/DD/YYYY" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" lang="en-US" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="e.g. 1:21 PM" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium text-slate-600">Relinquished by:</td>
+                                        <td class="p-2"><input type="text" placeholder="Enter name..." class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="MM/DD/YYYY" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" lang="en-US" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="e.g. 1:21 PM" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium text-slate-600">Received in lab by:</td>
+                                        <td class="p-2"><input type="text" placeholder="Enter name..." class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="MM/DD/YYYY" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" lang="en-US" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                        <td class="p-2"><input type="text" placeholder="e.g. 1:21 PM" class="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="p-2.5 bg-slate-50 text-[10px] text-slate-500 italic border-t border-slate-200">
+                                <strong>Note:</strong> Samples are discarded 30 days after results are reported, unless other arrangements are made.
+                            </div>
+                        </div>
+
+                        <!-- Compliance Monitor Section -->
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2.5">
+                            <div class="text-center font-bold text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-1">
+                                Compliance Monitor
+                            </div>
+                            <div class="grid grid-cols-2 gap-y-1.5 text-[11px]">
+                                <div class="text-slate-600 flex items-center">Temperature upon receipt:</div>
+                                <div><input type="text" value="<10 ºC" class="w-full bg-white border border-slate-300 rounded px-2 py-0.5 text-xs font-mono font-bold text-slate-900 focus:border-sky-600 outline-none"></div>
+                                <div class="text-slate-600 flex items-center"># of bottles agrees with COC?</div>
+                                <div class="flex items-center space-x-3 font-bold">
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_bottles" class="text-sky-600"> <span>Yes</span></label>
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_bottles" class="text-sky-600"> <span>No</span></label>
+                                </div>
+                                <div class="text-slate-600 flex items-center">Samples intact?</div>
+                                <div class="flex items-center space-x-3 font-bold">
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_intact" class="text-sky-600"> <span>Yes</span></label>
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_intact" class="text-sky-600"> <span>No</span></label>
+                                </div>
+                                <div class="text-slate-600 flex items-center">Samples properly preserved?</div>
+                                <div class="flex items-center space-x-3 font-bold">
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_preserved" class="text-sky-600"> <span>Yes</span></label>
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_preserved" class="text-sky-600"> <span>No</span></label>
+                                </div>
+                                <div class="text-slate-600 flex items-center">Samples in holding time?</div>
+                                <div class="flex items-center space-x-3 font-bold">
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_holding" class="text-sky-600"> <span>Yes</span></label>
+                                    <label class="flex items-center space-x-1 cursor-pointer"><input type="radio" name="comp_holding" class="text-sky-600"> <span>No</span></label>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-slate-200 space-y-1.5 text-[11px]">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-600 font-medium">Initial Flow:</span>
+                                    <input type="text" placeholder="Enter initial flow..." class="w-40 bg-white border border-slate-300 rounded px-2 py-0.5 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none">
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-600 font-medium">Final Flow:</span>
+                                    <input type="text" placeholder="Enter final flow..." class="w-40 bg-white border border-slate-300 rounded px-2 py-0.5 text-xs font-mono text-slate-800 focus:border-sky-600 outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Area -->
+                <div class="mt-6 pt-4 border-t border-slate-200 flex justify-end space-x-3">
+                    <button id="btn-confirm-batch" onclick="handleBatchConfirm()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center shadow-md transition">
+                        <i class="fa-solid fa-check mr-2"></i> Confirm
+                    </button>
+                    <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center shadow-md transition">
+                        <i class="fa-solid fa-print mr-2"></i> Print COC Record
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../shared/js/storage-service.js"></script>
+    <script src="../../shared/js/role-service.js"></script>
+    <script>
+        // Permission guard
+        initPageGuard('chain-of-custody-details');
+
+        const masterBatchData = [
+            {
+                batchNo: '202608171405',
+                sampledBy: 'MARIA ELENOR GUARDO',
+                phoneNo: '+639 60 592 0041',
+                date: '2026-08-11',
+                displayDate: '08/11/2026',
+                status: 'Pending Confirm',
+                statusClass: 'bg-amber-100 text-amber-800',
+                entries: [
+                    { station: 'JOYOM WATER REFILLING STATION', date: '08/11/2026', time: '9:30 AM', bottles: 1, test: 'Total Coliform/E. coli/HPC (MTFT/Pour Plate Method)', sampleType: '', matrix: '', bottleType: '', preservation: '', fieldData: '<10ºC', code: 'LDWA-2026-08-052' },
+                    { station: 'LYPE WATER REFILLING STATION', date: '08/11/2026', time: '9:25 AM', bottles: 1, test: 'Total Coliform/E. coli/HPC (MTFT/Pour Plate Method)', sampleType: '', matrix: '', bottleType: '', preservation: '', fieldData: '<10ºC', code: 'LDWA-2026-08-053' }
+                ]
+            },
+            {
+                batchNo: '202608182012',
+                sampledBy: 'JUAN DELA CRUZ',
+                phoneNo: '+639 17 123 4567',
+                date: '2026-08-12',
+                displayDate: '08/12/2026',
+                status: 'Pending Confirm',
+                statusClass: 'bg-amber-100 text-amber-800',
+                entries: [
+                    { station: 'TANDAG MUNICIPAL WATER DISTRICT - SOURCE 1', date: '08/12/2026', time: '8:00 AM', bottles: 2, test: 'Physical, Chemical & Microbiological Analysis', sampleType: '', matrix: '', bottleType: '', preservation: '', fieldData: '<10ºC', code: 'LDWA-2026-08-060' },
+                    { station: 'SAN MIGUEL REF. STATION', date: '08/12/2026', time: '10:15 AM', bottles: 1, test: 'Total Coliform/E. coli/HPC (MTFT/Pour Plate Method)', sampleType: '', matrix: '', bottleType: '', preservation: '', fieldData: '<10ºC', code: 'LDWA-2026-08-062' }
+                ]
+            },
+            {
+                batchNo: '202608190930',
+                sampledBy: 'ANNA MARIE SANTOS',
+                phoneNo: '+639 88 765 4321',
+                date: '2026-08-13',
+                displayDate: '08/13/2026',
+                status: 'Pending Confirm',
+                statusClass: 'bg-amber-100 text-amber-800',
+                entries: [
+                    { station: 'CORNERSTONE WATER STATION', date: '08/13/2026', time: '1:10 PM', bottles: 1, test: 'Total Coliform/E. coli/HPC (MTFT/Pour Plate Method)', sampleType: 'G', matrix: 'W', bottleType: 'P', preservation: 'ST', fieldData: '<10ºC', code: 'LDWA-2026-08-075' }
+                ]
+            }
+        ];
+
+        function renderParentTable(data) {
+            const tbody = document.getElementById('parent-table-body');
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-slate-500">No matching records found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(function (item) {
+                return '<tr class="hover:bg-slate-50 transition">' +
+                    '<td class="p-2 md:p-3 text-center border-b border-slate-200"><input type="radio" name="batchSelect" value="' + item.batchNo + '" class="cursor-pointer text-sky-600"></td>' +
+                    '<td class="p-2 md:p-3 font-mono font-bold text-slate-800">' + item.batchNo + '</td>' +
+                    '<td class="p-2 md:p-3 font-medium text-slate-900">' + item.sampledBy + '</td>' +
+                    '<td class="p-2 md:p-3 font-mono text-slate-600">' + item.phoneNo + '</td>' +
+                    '<td class="p-2 md:p-3 text-slate-600 font-mono">' + item.displayDate + '</td>' +
+                    '<td class="p-2 md:p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ' + item.statusClass + '">' + item.status + '</span></td>' +
+                    '<td class="p-2 md:p-3 text-center"><button onclick="fetchBatchDetails(\'' + item.batchNo + '\')" class="bg-slate-900 hover:bg-slate-800 text-white px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-sm">View Entries</button></td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function handleSearch() {
+            const batchVal = document.getElementById('query-batch').value.trim().toLowerCase();
+            const sampledVal = document.getElementById('query-sampled-by').value.trim().toLowerCase();
+            const phoneVal = document.getElementById('query-phone-no').value.trim().toLowerCase();
+            const dateVal = document.getElementById('query-date').value;
+            const filtered = masterBatchData.filter(function (item) {
+                return (batchVal === '' || item.batchNo.toLowerCase().includes(batchVal)) &&
+                       (sampledVal === '' || item.sampledBy.toLowerCase().includes(sampledVal)) &&
+                       (phoneVal === '' || item.phoneNo.toLowerCase().includes(phoneVal)) &&
+                       (dateVal === '' || item.date === dateVal);
+            });
+            renderParentTable(filtered);
+            document.getElementById('child-table-section').classList.add('hidden');
+        }
+
+        function handleReset() {
+            document.getElementById('query-batch').value = '';
+            document.getElementById('query-sampled-by').value = '';
+            document.getElementById('query-phone-no').value = '';
+            const dateInput = document.getElementById('query-date');
+            dateInput.value = '';
+            dateInput.type = 'text';
+            renderParentTable(masterBatchData);
+            document.getElementById('child-table-section').classList.add('hidden');
+        }
+
+        function fetchBatchDetails(batchNo) {
+            const batch = masterBatchData.find(function (i) { return i.batchNo === batchNo; });
+            if (!batch) return;
+            document.querySelectorAll('input[name="batchSelect"]').forEach(function (r) { if (r.value === batchNo) r.checked = true; });
+            document.getElementById('active-batch-label').innerText = batchNo;
+            const isPending = batch.status === 'Pending Confirm';
+            const btnConfirm = document.getElementById('btn-confirm-batch');
+            btnConfirm.classList.toggle('hidden', !isPending);
+            const childSection = document.getElementById('child-table-section');
+            childSection.classList.remove('hidden');
+            childSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const tbody = document.getElementById('child-table-body');
+            tbody.style.opacity = '0.4';
+            setTimeout(function () {
+                tbody.innerHTML = batch.entries.map(function (item, index) {
+                    const dis = isPending ? '' : 'disabled';
+                    const bg = isPending ? 'bg-white' : 'bg-slate-100 cursor-not-allowed';
+                    const sel = function (name, opts, val) {
+                        return '<select ' + dis + ' id="' + name + '-' + batchNo + '-' + index + '" class="' + bg + ' border border-slate-300 rounded px-1 py-0.5 text-[10px] font-medium text-slate-800 focus:border-sky-600 outline-none max-w-[50px]">' +
+                            opts.map(function (o) { return '<option value="' + o + '" ' + (val === o ? 'selected' : '') + '>' + o + '</option>'; }).join('') + '</select>';
+                    };
+                    return '<tr class="hover:bg-slate-50 transition">' +
+                        '<td class="py-1.5 px-2 font-mono font-bold text-sky-700 whitespace-nowrap">' + item.code + '</td>' +
+                        '<td class="py-1.5 px-2 font-medium text-slate-900 leading-snug">' + item.station + '</td>' +
+                        '<td class="py-1.5 px-2 text-slate-600 font-mono">' + item.date + '</td>' +
+                        '<td class="py-1.5 px-2 text-slate-600 font-mono">' + item.time + '</td>' +
+                        '<td class="py-1.5 px-1 text-center font-bold text-slate-700">' + item.bottles + '</td>' +
+                        '<td class="py-1.5 px-2 text-slate-700 leading-snug">' + item.test + '</td>' +
+                        '<td class="py-1.5 px-1 text-center">' + sel('sampleType', ['', 'G', 'C'], item.sampleType) + '</td>' +
+                        '<td class="py-1.5 px-1 text-center">' + sel('matrix', ['', 'W', 'WW'], item.matrix) + '</td>' +
+                        '<td class="py-1.5 px-1 text-center">' + sel('bottleType', ['', 'P', 'G'], item.bottleType) + '</td>' +
+                        '<td class="py-1.5 px-1 text-center">' + sel('preservation', ['', 'HC', 'HS', 'HN', 'HP', 'ST', 'OT'], item.preservation) + '</td>' +
+                        '<td class="py-1.5 px-2 text-center font-mono text-slate-600">' + item.fieldData + '</td>' +
+                        '<td class="py-1.5 px-2 text-center">' +
+                            (isPending ? '<button onclick="handleUpdateEntry(\'' + batchNo + '\',' + index + ')" class="bg-sky-600 hover:bg-sky-700 text-white px-2 py-0.5 rounded text-[10px] font-semibold transition shadow-sm">Update</button>' : '<span class="text-slate-400 font-mono text-[10px]">-</span>') +
+                        '</td>' +
+                        '</tr>';
+                }).join('');
+                tbody.style.opacity = '1';
+            }, 150);
+        }
+
+        function handleUpdateEntry(batchNo, index) {
+            const batch = masterBatchData.find(function (i) { return i.batchNo === batchNo; });
+            if (batch && batch.entries[index]) {
+                batch.entries[index].sampleType  = document.getElementById('sampleType-'  + batchNo + '-' + index).value;
+                batch.entries[index].matrix      = document.getElementById('matrix-'      + batchNo + '-' + index).value;
+                batch.entries[index].bottleType  = document.getElementById('bottleType-'  + batchNo + '-' + index).value;
+                batch.entries[index].preservation = document.getElementById('preservation-' + batchNo + '-' + index).value;
+                alert('Successfully updated entry for Code: ' + batch.entries[index].code);
+            }
+        }
+
+        function handleBatchConfirm() {
+            const batchNo = document.getElementById('active-batch-label').innerText;
+            if (!batchNo) { alert('Please select and view a batch first.'); return; }
+            const batch = masterBatchData.find(function (i) { return i.batchNo === batchNo; });
+            if (batch) {
+                batch.status = 'Pending Payment';
+                batch.statusClass = 'bg-purple-100 text-purple-800';
+                StorageService.updateSampleStatus(batchNo, 'Pending Payment', 'COC confirmed by admin');
+                renderParentTable(masterBatchData);
+                fetchBatchDetails(batchNo);
+                alert('Batch ' + batchNo + ' status updated to Pending Payment!');
+            }
+        }
+
+        window.onload = function () { renderParentTable(masterBatchData); };
+    </script>
+</body>
+</html>

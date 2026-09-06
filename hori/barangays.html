@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surigao del Sur - Municipality & Barangay 联动查询</title>
+    <style>
+        :root {
+            --primary-color: #2F4F4F;
+            --secondary-color: #3B6E8C;
+            --bg-color: #F4F7F6;
+            --card-bg: #FFFFFF;
+            --text-color: #333333;
+            --border-color: #D1D5DB;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 22px;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #FFF;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(59, 110, 140, 0.15);
+        }
+
+        .result-box {
+            background-color: #F9FBFC;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            min-height: 120px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .stats {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .barangay-tag {
+            background-color: #E2E8F0;
+            color: #1E293B;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Surigao del Sur 市县与村庄(Barangay)联动查询</h2>
+    
+    <div class="form-group">
+        <label for="municipalitySelect">选择 Municipality / City:</label>
+        <select id="municipalitySelect" onchange="updateBarangays()">
+            <!-- JS 动态填充选项 -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>下属 Barangays 列表:</label>
+        <div class="result-box">
+            <div id="statsCount" class="stats"></div>
+            <div id="barangayContainer" class="tag-container">
+                <!-- JS 动态填充标签 -->
+            </div>
+        </div>
+    </div>
+    
+    {"Type": "City", "Name": "Tandag City (Capital)", "Barangays": "Awasian, Bagong Lungsod, Bioto, Bongtod (Poblacion), Buenavista, Dagocdoc, Mabua, Mabuhay, Maitum, Maticdum, Pandanon, Pangi, Quezon, Rosario, Salvacion, San Agustin Norte, San Agustin Sur, San Antonio, San Isidro, San Jose, Telaje", "Count": 21},
+    {"Type": "City", "Name": "Bislig City", "Barangays": "Bucto, Burboanan, Caguyao, Coleto, Comawas, Kahayag, Labisma, Lawigan, Maharlika, Mangagoy, Mone, Pamanlinan, Pamaypayan, Poblacion, San Antonio, San Fernando, San Isidro, San Jose, San Roque, San Vicente, Santa Cruz, Sibaroy, Tabon, Tumanan", "Count": 24},
+    {"Type": "Municipality", "Name": "Barobo", "Barangays": "Amaga, Bahi, Cabacungan, Cambagang, Causwagan, Dapdap, Dughan, Gamut, Javier, Kinayan, Mamis, Poblacion, Rizal, San Jose, San Roque, San Vicente, Sua, Sudlon, Tambis, Unidad, Wakat", "Count": 21},
+    {"Type": "Municipality", "Name": "Bayabas", "Barangays": "Amag, Balete, Cabugo, Cagbaoto, La Paz, Magobawok, Panaosawon", "Count": 7},
+    {"Type": "Municipality", "Name": "Cagwait", "Barangays": "Aras-asan, Bacolod, Bitaugan East, Bitaugan West, La Purisima, Lactudan, Mat-e, Poblacion, Tawagan, Tubo-tubo, Unidad", "Count": 11},
+    {"Type": "Municipality", "Name": "Cantilan", "Barangays": "Bugsukan, Buntalid, Cabangahan, Cabas-an, Calagdaan, Consuelo, General Island, Lininti-an, Lobo, Magasang, Magosilom, Pag-antayan, Palasao, Parang, San Pedro, Tapi, Tigabong", "Count": 17},
+    {"Type": "Municipality", "Name": "Carmen", "Barangays": "Antao, Cancavan, Carmen, Esperanza, Hinapoyan, Puyat, San Vicente, Santa Cruz", "Count": 8},
+    {"Type": "Municipality", "Name": "Carrascal", "Barangays": "Adlay, Babuyan, Bacolod, Baybay (Pob.), Bon-ot, Caglayag, Dahican, Doyos (Pob.), Embarcadero (Pob.), Gamuton, Panikian, Pantukan, Saca (Pob.), Tag-Anito", "Count": 14},
+    {"Type": "Municipality", "Name": "Cortes", "Barangays": "Balibadon, Burgos, Capandan, Mabahin, Madrelino, Manlico, Matho, Poblacion, Tag-anongan, Tigao, Tuboran, Uba", "Count": 12},
+    {"Type": "Municipality", "Name": "Hinatuan", "Barangays": "Baculin, Benigno Aquino, Bigaan, Cambatong, Campa, Dugmanon, Harip, La Casa, Loyola, Maligaya, Pagtigni-an, Pocto, Port Lamon, Roxas, San Juan, Sasa, Tagasaka, Tagbobonga, Talisay, Tarusan, Tidman, Tiwi, Zone II, Zone III Maharlika", "Count": 24},
+    {"Type": "Municipality", "Name": "Lanuza", "Barangays": "Agsam, Bocawe, Bunga, Gamuton, Habag, Mampi, Nurcia, Pakwan, Sibahay, Zone I, Zone II, Zone III, Zone IV", "Count": 13},
+    {"Type": "Municipality", "Name": "Lianga", "Barangays": "Anibongan, Ban-as, Banahao, Baucawe, Diatagon, Ganayon, Liatimco, Manyayay, Payasan, Poblacion, Saint Christine, San Isidro, San Pedro", "Count": 13},
+    {"Type": "Municipality", "Name": "Lingig", "Barangays": "Anibongan, Barcelona, Bogak, Bongan, Handamayan, Mahayahay, Mandus, Mansa-ilao, Pagtila-an, Palo Alto, Poblacion, Rajah Cabungso-an, Sabang, Salvacion, San Roque, Tagpoporan, Union, Valencia", "Count": 18},
+    {"Type": "Municipality", "Name": "Madrid", "Barangays": "Bagsac, Bayogo, Linibonan, Magsaysay, Manga, Panayogon, Patong Patong, Poblacion, San Antonio, San Juan, San Vicente, Songkoy, Union", "Count": 13},
+    {"Type": "Municipality", "Name": "Marihatag", "Barangays": "Alegria, Amontay, Antipolo, Arorogan, Bayan, Mahaba, Mararag, Poblacion, San Antonio, San Isidro, San Pedro, Santa Cruz", "Count": 12},
+    {"Type": "Municipality", "Name": "San Agustin", "Barangays": "Bretania, Buatong, Buhisan, Gata, Hornasan, Janipaan, Kauswagan, Oteiza, Poblacion, Pong-on, Pongtod, Salvacion, Santo Niño", "Count": 13},
+    {"Type": "Municipality", "Name": "San Miguel", "Barangays": "Bagyang, Baras, Bitaugan, Bolhoon, Calatngan, Carromata, Castillo, Libas Gua, Libas Sud, Magroyong, Mahayag, Patong, Poblacion, Sagbayan, San Roque, Siagao, Tina, Umalag", "Count": 18},
+    {"Type": "Municipality", "Name": "Tagbina", "Barangays": "Batunan, Carpenito, Doña Carmen, Hinagdanan, Kahayagan, Lago, Maglambing, Maglatab, Magsaysay, Malixi, Manambia, Osmeña, Poblacion, Quezon, San Vicente, Santa Cruz, Santa Fe, Santa Juana, Santa Maria, Sayon, Soriano, Tagongon, Trinidad, Ugoban, Villaverde", "Count": 25},
+    {"Type": "Municipality", "Name": "Tago", "Barangays": "Alba, Anahao Bag-o, Anahao Daan, Badong, Bajao, Bangsud, Cabangahan, Cagdapao, Camagong, Caras-an, Cayale, Dayo-an, Gamut, Jubang, Kinabigtasan, Layog, Lindoy, Mercedes, Purisima, Sumo-sumo, Umbay, Unaban, Unidos, Victoria", "Count": 24}
+
+
+</div>
+
+<script>
+    // 数据源
+    const surigaoData = [
+        {Type: "City", Name: "Tandag City (Capital)", Barangays: "Awasian, Bagong Lungsod, Bioto, Bongtod (Poblacion), Buenavista, Dagocdoc, Mabua, Mabuhay, Maitum, Maticdum, Pandanon, Pangi, Quezon, Rosario, Salvacion, San Agustin Norte, San Agustin Sur, San Antonio, San Isidro, San Jose, Telaje", Count: 21},
+        {Type: "City", Name: "Bislig City", Barangays: "Bucto, Burboanan, Caguyao, Coleto, Comawas, Kahayag, Labisma, Lawigan, Maharlika, Mangagoy, Mone, Pamanlinan, Pamaypayan, Poblacion, San Antonio, San Fernando, San Isidro, San Jose, San Roque, San Vicente, Santa Cruz, Sibaroy, Tabon, Tumanan", Count: 24},
+        {Type: "Municipality", Name: "Barobo", Barangays: "Amaga, Bahi, Cabacungan, Cambagang, Causwagan, Dapdap, Dughan, Gamut, Javier, Kinayan, Mamis, Poblacion, Rizal, San Jose, San Roque, San Vicente, Sua, Sudlon, Tambis, Unidad, Wakat", Count: 21},
+        {Type: "Municipality", Name: "Bayabas", Barangays: "Amag, Balete, Cabugo, Cagbaoto, La Paz, Magobawok, Panaosawon", Count: 7},
+        {Type: "Municipality", Name: "Cagwait", Barangays: "Aras-asan, Bacolod, Bitaugan East, Bitaugan West, La Purisima, Lactudan, Mat-e, Poblacion, Tawagan, Tubo-tubo, Unidad", Count: 11},
+        {Type: "Municipality", Name: "Cantilan", Barangays: "Bugsukan, Buntalid, Cabangahan, Cabas-an, Calagdaan, Consuelo, General Island, Lininti-an, Lobo, Magasang, Magosilom, Pag-antayan, Palasao, Parang, San Pedro, Tapi, Tigabong", Count: 17},
+        {Type: "Municipality", Name: "Carmen", Barangays: "Antao, Cancavan, Carmen, Esperanza, Hinapoyan, Puyat, San Vicente, Santa Cruz", Count: 8},
+        {Type: "Municipality", Name: "Carrascal", Barangays: "Adlay, Babuyan, Bacolod, Baybay (Pob.), Bon-ot, Caglayag, Dahican, Doyos (Pob.), Embarcadero (Pob.), Gamuton, Panikian, Pantukan, Saca (Pob.), Tag-Anito", Count: 14},
+        {Type: "Municipality", Name: "Cortes", Barangays: "Balibadon, Burgos, Capandan, Mabahin, Madrelino, Manlico, Matho, Poblacion, Tag-anongan, Tigao, Tuboran, Uba", Count: 12},
+        {Type: "Municipality", Name: "Hinatuan", Barangays: "Baculin, Benigno Aquino, Bigaan, Cambatong, Campa, Dugmanon, Harip, La Casa, Loyola, Maligaya, Pagtigni-an, Pocto, Port Lamon, Roxas, San Juan, Sasa, Tagasaka, Tagbobonga, Talisay, Tarusan, Tidman, Tiwi, Zone II, Zone III Maharlika", Count: 24},
+        {Type: "Municipality", Name: "Lanuza", Barangays: "Agsam, Bocawe, Bunga, Gamuton, Habag, Mampi, Nurcia, Pakwan, Sibahay, Zone I, Zone II, Zone III, Zone IV", Count: 13},
+        {Type: "Municipality", Name: "Lianga", "Barangays": "Anibongan, Ban-as, Banahao, Baucawe, Diatagon, Ganayon, Liatimco, Manyayay, Payasan, Poblacion, Saint Christine, San Isidro, San Pedro", Count: 13},
+        {Type: "Municipality", Name: "Lingig", Barangays: "Anibongan, Barcelona, Bogak, Bongan, Handamayan, Mahayahay, Mandus, Mansa-ilao, Pagtila-an, Palo Alto, Poblacion, Rajah Cabungso-an, Sabang, Salvacion, San Roque, Tagpoporan, Union, Valencia", Count: 18},
+        {Type: "Municipality", Name: "Madrid", Barangays: "Bagsac, Bayogo, Linibonan, Magsaysay, Manga, Panayogon, Patong Patong, Poblacion, San Antonio, San Juan, San Vicente, Songkoy, Union", Count: 13},
+        {Type: "Municipality", Name: "Marihatag", Barangays: "Alegria, Amontay, Antipolo, Arorogan, Bayan, Mahaba, Mararag, Poblacion, San Antonio, San Isidro, San Pedro, Santa Cruz", Count: 12},
+        {Type: "Municipality", Name: "San Agustin", Barangays: "Bretania, Buatong, Buhisan, Gata, Hornasan, Janipaan, Kauswagan, Oteiza, Poblacion, Pong-on, Pongtod, Salvacion, Santo Niño", Count: 13},
+        {Type: "Municipality", Name: "San Miguel", Barangays: "Bagyang, Baras, Bitaugan, Bolhoon, Calatngan, Carromata, Castillo, Libas Gua, Libas Sud, Magroyong, Mahayag, Patong, Poblacion, Sagbayan, San Roque, Siagao, Tina, Umalag", Count: 18},
+        {Type: "Municipality", Name: "Tagbina", Barangays: "Batunan, Carpenito, Doña Carmen, Hinagdanan, Kahayagan, Lago, Maglambing, Maglatab, Magsaysay, Malixi, Manambia, Osmeña, Poblacion, Quezon, San Vicente, Santa Cruz, Santa Fe, Santa Juana, Santa Maria, Sayon, Soriano, Tagongon, Trinidad, Ugoban, Villaverde", Count: 25},
+        {Type: "Municipality", Name: "Tago", Barangays: "Alba, Anahao Bag-o, Anahao Daan, Badong, Bajao, Bangsud, Cabangahan, Cagdapao, Camagong, Caras-an, Cayale, Dayo-an, Gamut, Jubang, Kinabigtasan, Layog, Lindoy, Mercedes, Purisima, Sumo-sumo, Umbay, Unaban, Unidos, Victoria", Count: 24}
+    ];
+
+    // 初始化下拉菜单
+    function initDropdown() {
+        const select = document.getElementById("municipalitySelect");
+        surigaoData.forEach((item, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = `${item.Name} (${item.Type})`;
+            select.appendChild(option);
+        });
+        // 默认触发一次
+        updateBarangays();
+    }
+
+    // 联动更新村庄列表
+    function updateBarangays() {
+        const select = document.getElementById("municipalitySelect");
+        const selectedIndex = select.value;
+        const currentData = surigaoData[selectedIndex];
+
+        const container = document.getElementById("barangayContainer");
+        const statsCount = document.getElementById("statsCount");
+        
+        container.innerHTML = "";
+        statsCount.textContent = `共计 ${currentData.Count} 个 Barangays：`;
+
+        // 将逗号分隔的字符串转成数组并生成小标签
+        const barangaysArray = currentData.Barangays.split(", ");
+        barangaysArray.forEach(b => {
+            const tag = document.createElement("span");
+            tag.className = "barangay-tag";
+            tag.textContent = b;
+            container.appendChild(tag);
+        });
+    }
+
+    // 页面加载完成后初始化
+    window.onload = initDropdown;
+</script>
+
+</body>
+</html>

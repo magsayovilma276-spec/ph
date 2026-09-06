@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Confirm Pay - PHO-QATD LIMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ✅ 引入你刚刚分离出去的打印样式 -->
+    <!-- 注意修改 href 为你存放该 css 的实际路径 -->
+    <link rel="stylesheet" href="../../shared/css/print-report.css" media="print">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-xl text-slate-900 font-bold flex items-center justify-center w-10 h-10 shadow-sm">
+                    <i class="fa-solid fa-file-invoice-dollar text-xl text-emerald-600"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base leading-tight tracking-wide">PHO-QATD LIMS Portal</h1>
+                    <p class="text-[10px] text-slate-400">Province of Surigao del Sur - Laboratory Information System</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    System Online
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- Official Header -->
+            <div class="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <!-- Official Logo 1 -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo1.png" data-logo alt="Surigao del Sur Seal" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-center space-y-1 flex-1">
+                        <h3 class="text-xs uppercase tracking-widest text-slate-500 font-semibold">Republic of the Philippines</h3>
+                        <h2 class="text-sm md:text-base font-bold text-slate-800">Province of Surigao del Sur</h2>
+                        <h1 class="text-base md:text-xl font-black text-slate-900 tracking-tight">QUALITY ASSURANCE AND TESTING DIVISION</h1>
+                        <h2 class="text-xs md:text-sm font-bold text-sky-700">LABORATORY FOR DRINKING WATER ANALYSIS</h2>
+                        <p class="text-[11px] text-slate-500 pt-1 font-mono">Capitol Road, Telaje, Tandag City, Surigao del Sur &middot; +639 60 592 0041 &middot; qatdprovincialhealthoffice@gmail.com</p>
+                    </div>
+                    <!-- Official Logo 2 (DOH Accredited) -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo2.png" data-logo alt="DOH Accredited Logo" class="w-full h-full object-contain">
+                    </div>
+                </div>
+
+                <!-- Search Filter -->
+                <div class="mt-6 pt-6 border-t border-slate-200 bg-slate-50/70 p-4 rounded-xl border border-slate-200 no-print">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-xs items-end">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">Batch No</label>
+                            <input type="text" id="filter-batch" placeholder="Enter batch no..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">Phone No</label>
+                            <input type="text" id="filter-phone" placeholder="Enter phone no..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">Name</label>
+                            <input type="text" id="filter-name" placeholder="Enter payor name..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">Date</label>
+                            <input type="text" id="filter-date" placeholder="MM/DD/YYYY" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" lang="en-US" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none shadow-sm">
+                        </div>
+                        <div class="sm:col-span-1">
+                            <button onclick="searchTransaction()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white h-[38px] px-3 rounded-lg font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-1.5">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Search</span>
+                            </button>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <button onclick="clearSearchFilters()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 h-[38px] px-3 rounded-lg font-bold text-xs uppercase tracking-wider transition shadow-sm flex items-center justify-center space-x-1.5">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Clear</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data display section (hidden until search) -->
+            <div id="data-display-section" class="hidden">
+                <!-- Meta info -->
+                <div class="p-6 md:p-8 pb-0">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium text-slate-700">
+                        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-1">
+                            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Payor</span>
+                            <div class="font-bold text-slate-900 text-sm" id="meta-payor">CRYSTAL CLEAR WATER REFILLING</div>
+                            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mt-2">Address</span>
+                            <div class="font-bold text-slate-900 text-sm" id="meta-address">CANTILAN, SURIGAO DEL SUR</div>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">Batch No:</span>
+                                <span class="font-mono font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded" id="meta-batch">20260817164327</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">Date Issued:</span>
+                                <span class="font-bold text-slate-900" id="meta-date">2026-08-11</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">Status:</span>
+                                <span id="payment-status-badge" class="font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded uppercase text-[10px] border border-amber-200">Pending Payment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="p-6 md:p-8 space-y-6">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Order of Payment Entries</h3>
+                        <span class="text-xs text-slate-500">Billing Statement & Fee Breakdown</span>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-emerald-700 text-white text-xs uppercase tracking-wider">
+                                    <th class="p-3.5 border-b border-slate-200 font-bold">Description</th>
+                                    <th class="p-3.5 border-b border-slate-200 font-bold text-center">Quantity</th>
+                                    <th class="p-3.5 border-b border-slate-200 font-bold text-right">Rate</th>
+                                    <th class="p-3.5 border-b border-slate-200 font-bold text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-slate-200" id="payment-entries-body">
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="p-3.5 font-medium text-slate-900">Total Coliform, Fecal Coliform, HPC (MTFT/Pour Plate)</td>
+                                    <td class="p-3.5 text-center font-bold text-slate-700">2</td>
+                                    <td class="p-3.5 text-right font-mono text-slate-600">₱550.00</td>
+                                    <td class="p-3.5 text-right font-mono font-bold text-slate-900">₱1,100.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-slate-50 font-black border-t-2 border-slate-200">
+                                    <td colspan="3" class="p-4 text-right uppercase text-xs text-slate-700 tracking-wider">Total Amount Due</td>
+                                    <td class="p-4 text-right text-emerald-800 text-lg font-mono" id="total-amount-due">₱1,100.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Confirmation footer -->
+                    <div class="mt-12 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                        <div class="text-xs text-slate-500 italic max-w-xs">
+                            Please verify all billing information before entering the Official Receipt number and confirming payment.
+                        </div>
+                        <div class="flex flex-col items-stretch sm:items-end gap-3 w-full md:w-auto no-print">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                                <label class="text-[11px] font-bold uppercase text-slate-700 whitespace-nowrap flex items-center space-x-1">
+                                    <span>Official Receipt (OR) No.</span>
+                                    <span class="text-rose-500 font-bold">*Required</span>
+                                </label>
+                                <input type="text" id="or-number-input" placeholder="e.g. OR-2026-99812" class="w-full sm:w-60 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none shadow-sm">
+                            </div>
+                            <div class="flex items-center gap-3 w-full sm:w-auto pt-1">
+                                <button id="btn-confirm-payment" onclick="confirmPayment()" class="flex-1 sm:flex-initial px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-check-circle"></i>
+                                    <span>Confirm Payment</span>
+                                </button>
+                                <button onclick="window.print()" class="flex-1 sm:flex-initial px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-print"></i>
+                                    <span>Print Document</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../shared/js/storage-service.js"></script>
+    <script src="../../shared/js/role-service.js"></script>
+    <script>
+        // Permission guard
+        initPageGuard('billing-confirm-pay');
+
+        // Mock database for demo search
+        const mockDatabase = {
+            batchNo: '20260817164327',
+            phoneNo: '09605920041',
+            name: 'CRYSTAL',
+            date: '2026-08-11'
+        };
+
+        function searchTransaction() {
+            const batchNo = document.getElementById('filter-batch').value.trim();
+            const phoneNo = document.getElementById('filter-phone').value.trim();
+            const name = document.getElementById('filter-name').value.trim();
+            const dateVal = document.getElementById('filter-date').value.trim();
+            const displaySection = document.getElementById('data-display-section');
+
+            if (!batchNo && !phoneNo && !dateVal && !name) {
+                alert('Please enter at least one search criteria.');
+                displaySection.classList.add('hidden');
+                return;
+            }
+
+            let isMatch = true;
+            if (batchNo && !mockDatabase.batchNo.toLowerCase().includes(batchNo.toLowerCase())) isMatch = false;
+            if (phoneNo && !mockDatabase.phoneNo.includes(phoneNo)) isMatch = false;
+            if (name && !mockDatabase.name.toLowerCase().includes(name.toLowerCase())) isMatch = false;
+            if (dateVal && mockDatabase.date !== dateVal) isMatch = false;
+
+            if (!isMatch) {
+                alert('No matching transaction record found!');
+                displaySection.classList.add('hidden');
+            } else {
+                displaySection.classList.remove('hidden');
+            }
+        }
+
+        function clearSearchFilters() {
+            document.getElementById('filter-batch').value = '';
+            document.getElementById('filter-phone').value = '';
+            document.getElementById('filter-name').value = '';
+            const dateInput = document.getElementById('filter-date');
+            dateInput.type = 'text';
+            dateInput.value = '';
+            document.getElementById('data-display-section').classList.add('hidden');
+        }
+
+        function confirmPayment() {
+            const orInput = document.getElementById('or-number-input');
+            const orValue = orInput.value.trim();
+
+            if (!orValue) {
+                alert('Validation Error: Official Receipt (OR) Number cannot be empty!');
+                orInput.focus();
+                orInput.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+                return;
+            }
+            orInput.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500');
+
+            const batchNo = document.getElementById('meta-batch').innerText;
+            if (!confirm('Confirm payment for Batch #' + batchNo + ' with OR No: ' + orValue + '?')) return;
+
+            // Save payment and advance status (idempotency check is inside savePayment)
+            const saved = StorageService.savePayment({ batchNo: batchNo, orNumber: orValue, amount: '₱1,100.00' });
+
+            if (saved !== false) {
+                StorageService.updateSampleStatus(batchNo, 'Pending Testing', 'Payment confirmed OR: ' + orValue);
+            }
+
+            // Update UI
+            const statusBadge = document.getElementById('payment-status-badge');
+            statusBadge.innerText = 'Paid';
+            statusBadge.className = 'font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded uppercase text-[10px] border border-emerald-300';
+
+            orInput.disabled = true;
+            orInput.classList.add('bg-slate-100', 'cursor-not-allowed');
+
+            const btnConfirm = document.getElementById('btn-confirm-payment');
+            btnConfirm.disabled = true;
+            btnConfirm.className = 'flex-1 sm:flex-initial px-6 py-3 bg-slate-400 text-white rounded-xl text-xs font-bold uppercase tracking-wider cursor-not-allowed flex items-center justify-center space-x-2';
+            btnConfirm.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>Payment Confirmed</span>';
+
+            alert('Payment successfully confirmed!\nBatch No: ' + batchNo + '\nOR No: ' + orValue + '\nStatus: Paid');
+        }
+    </script>
+</body>
+</html>

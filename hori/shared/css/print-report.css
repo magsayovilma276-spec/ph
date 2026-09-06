@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Print Optimization Styles for A4 Single Page Reports
+   使用方法
+   1步，在你所有的报表 HTML 文件的 <head> 标签中引入这个 CSS 文件。可以在 <link> 标签上加上 media="print"，这样浏览器只会在调用打印时才解析这个文件，能提升页面初始加载性能
+   <head>
+    <!-- ✅ 引入你刚刚分离出去的打印样式 -->
+    <!-- 注意修改 href 为你存放该 css 的实际路径 -->
+    <link rel="stylesheet" href="./css/print-report.css" media="print">
+    </head>
+    2步 不想打印的按钮或顶部导航：加上 no-print
+    <div class="flex gap-3 no-print">
+    	<button onclick="window.print()">Print Report</button>
+		</div>
+   
+   
+   ========================================================================== */
+
+@media print {
+    /* 1. 定义 A4 纸张尺寸与较小的页边距，最大化利用空间 */
+    @page {
+        size: A4 portrait;
+        margin: 6mm; 
+    }
+
+    /* 2. 强制浏览器打印背景颜色和图形（解决默认去背景的问题） */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 3. 重置页面背景与边距，去掉网页端多余的灰色底色 */
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 4. 全局隐藏不需要打印的元素（只要给不需要打印的元素加 .no-print 即可） */
+    header, 
+    nav,
+    footer,
+    .no-print {
+        display: none !important;
+    }
+
+    /* 5. 限制主容器，去掉四周留白 */
+    main {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    } 
+
+    /* 
+     * 6. 核心缩放容器类（单页A4强制不分页）
+     * 用法：在你的外层白色卡片 div 上加上 class="print-page-wrapper" 
+     */
+    main > div,
+    .print-page-wrapper {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important; /* 维持一个细边框 */
+        margin: 0 !important;
+        padding: 0 !important;
+        
+         /* 假设你的父级 div 结构是 main > div，或者你可以给它加个类名如 .no-wrap-print */
+        flex-wrap: nowrap !important;
+        
+        /* 整体等比缩小到 92%，完美防溢出到第二页 */
+        transform: scale(0.92) !important; 
+        transform-origin: top center !important; 
+        
+        /* 防止容器在中间被截断 */
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    /* 针对内容极多的页面，提供额外的缩放工具类供你灵活使用 */
+    .print-scale-85 { transform: scale(0.85) !important; }
+    .print-scale-90 { transform: scale(0.90) !important; }
+
+    /* 7. 去除多余阴影 */
+    .shadow-xl, .shadow-sm, .shadow-lg, .shadow {
+        box-shadow: none !important;
+    }
+
+    /* 8. 规范化签名输入框（<input>）打印外观，变成一条带名字的红线 */
+    input[type="text"] {
+        border: none !important;
+        border-bottom: 2px solid #f43f5e !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        color: #e11d48 !important;
+    }
+    input::placeholder {
+        color: transparent !important;
+    }
+
+    /* 9. Tailwind 间距在打印时的自动微调，防止间隙过大挤爆A4纸 */
+    .p-8 { padding: 1rem !important; }
+    .space-y-6 > * + * { margin-top: 0.75rem !important; }
+    .gap-6 { gap: 1rem !important; }
+    
+    /* 保证表格行不被切断 */
+    tr, th, td {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+    
+    /* === 在这里追加刚刚的防换行与防挤压修复代码 === */
+    main > div .flex,
+    .print-page-wrapper .flex {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+    }
+
+    main > div .flex > *,
+    .print-page-wrapper .flex > * {
+        flex-shrink: 0 !important;
+    }
+   
+}

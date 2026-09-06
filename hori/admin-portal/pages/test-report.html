@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Report - PHO-QATD LIMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ✅ 引入你刚刚分离出去的打印样式 -->
+    <!-- 注意修改 href 为你存放该 css 的实际路径 -->
+    <link rel="stylesheet" href="../../shared/css/print-report.css" media="print">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-xl text-slate-900 font-bold flex items-center justify-center w-10 h-10 shadow-sm">
+                    <i class="fa-solid fa-flask text-xl text-emerald-600"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm leading-tight">Test Report</h1>
+                    <p class="text-[10px] text-slate-400">Province of Surigao del Sur</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- Official Header Section -->
+            <div class="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <!-- Official Logo 1 -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo1.png" data-logo alt="Surigao del Sur Seal" class="w-full h-full object-contain">
+                    </div>
+
+                    <div class="text-center space-y-1 flex-1">
+                        <h3 class="text-xs uppercase tracking-widest text-slate-500 font-semibold">Republic of the Philippines</h3>
+                        <h2 class="text-sm md:text-base font-bold text-slate-800">Province of Surigao del Sur</h2>
+                        <h1 class="text-base md:text-xl font-black text-slate-900 tracking-tight">QUALITY ASSURANCE AND TESTING DIVISION</h1>
+                        <h2 class="text-xs md:text-sm font-bold text-sky-700">LABORATORY FOR DRINKING WATER ANALYSIS</h2>
+                        <p class="text-[11px] text-slate-500 pt-1 font-mono">Capitol Road, Telaje, Tandag City, Surigao del Sur &middot; +639 60 592 0041 &middot; qatdprovincialhealthoffice@gmail.com</p>
+                    </div>
+
+                    <!-- Official Logo 2 (DOH Accredited) -->
+                    <div class="w-40 h-40 flex-shrink-0 flex items-center justify-center bg-white p-0 rounded-2xl shadow-sm border border-slate-50 overflow-hidden">
+                        <img src="../../shared/image/logo2.png" data-logo alt="DOH Accredited Logo" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unified Transaction Unit -->
+            <div class="p-8 space-y-6">
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                    <div class="bg-emerald-700 px-6 py-3 text-center">
+                        <h2 class="text-lg font-black text-white uppercase tracking-wider">Test Report</h2>
+                    </div>
+                    
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                        <div class="space-y-3">
+                            <div>
+                                <span class="text-slate-400 font-bold uppercase block text-[10px]">Requesting Party</span>
+                                <span class="font-bold text-slate-900 text-sm">PRINCESS WATER REFILLING STATION</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 font-bold uppercase block text-[10px]">Address</span>
+                                <span class="font-medium text-slate-800">Victoria, Tago, Surigao del Sur</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 font-bold uppercase block text-[10px]">Source/Type of Sample</span>
+                                <span class="font-medium text-slate-800">Level III - Local Water Works / Water</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 font-bold uppercase block text-[10px]">Sampling Address</span>
+                                <span class="font-medium text-slate-800">Victoria, Tago, Surigao del Sur</span>
+                            </div>
+                             <div>
+                                <span class="text-slate-400 font-bold uppercase block text-[10px]">Email</span>
+                                <span class="font-medium text-slate-800">google.com@qq.com</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 font-bold uppercase block text-[10px]">Contact Number</span>
+                                <span class="font-mono font-medium text-slate-800">09516375150</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Batch No:</span>
+                                <span class="font-mono font-bold text-sky-700">LDWA-2026-08-026</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Date & Time Collected:</span>
+                                <span class="font-medium text-slate-900">August 6, 2026 9:10 AM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Date & Time Received:</span>
+                                <span class="font-medium text-slate-900">August 6, 2026 9:30 AM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Date Analysis Started:</span>
+                                <span class="font-medium text-slate-900">August 6, 2026</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Date Analysis Ended:</span>
+                                <span class="font-medium text-slate-900">August 8, 2026</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Date Reported:</span>
+                                <span class="font-medium text-slate-900">August 10, 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parameters Table -->
+                <table class="w-full text-left border-collapse rounded-xl overflow-hidden shadow-sm border border-slate-200">
+                    <thead>
+                        <tr class="bg-emerald-700 text-white text-[10px] uppercase">
+                            <th class="p-3 font-bold">Parameters</th>
+                            <th class="p-3 font-bold">Results</th>
+                            <th class="p-3 font-bold">Unit</th>
+                            <th class="p-3 font-bold">Maximum Allowable</th>
+                            <th class="p-3 font-bold">Reference Standard Method</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">Total Coliform</td>
+                            <td class="p-3 font-mono font-bold text-rose-600">&lt;1.1</td>
+                            <td class="p-3 font-mono text-slate-600">MPN/100 mL</td>
+                            <td class="p-3 font-mono text-slate-600">&lt;1.1 MPN/100 mL</td>
+                            <td class="p-3 text-slate-700">SMEWW 9221. Multiple Fermentation Technique</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">Fecal Coliform</td>
+                            <td class="p-3 font-mono font-bold text-rose-600">&lt;1.1</td>
+                            <td class="p-3 font-mono text-slate-600">MPN/100 mL</td>
+                            <td class="p-3 font-mono text-slate-600">&lt;1.1 MPN/100 mL</td>
+                            <td class="p-3 text-slate-700">SMEWW 9221. Multiple Fermentation Technique</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">Heterotrophic Plate Count (HPC)</td>
+                            <td class="p-3 font-mono font-bold text-amber-600">960 est.</td>
+                            <td class="p-3 font-mono text-slate-600">CFU/mL</td>
+                            <td class="p-3 font-mono text-slate-600">&lt;500 CFU/mL</td>
+                            <td class="p-3 text-slate-700">SMEWW 4500-NO3- B. Spectrophotometric Screening Method</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- References & Remarks -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-[11px] pt-4 border-t border-slate-200">
+                    <div>
+                        <h4 class="font-bold text-slate-900 uppercase tracking-wider mb-2">References</h4>
+                        <ul class="space-y-1 text-slate-600">
+                            <li>§ Standard Methods for the Examination of Water and Wastewater, 23rd Edition</li>
+                            <li>§ Philippine National Standards for Drinking Water (PNSDW, DOH AO No. 2017-0010)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 uppercase tracking-wider mb-2">Remarks</h4>
+                        <ul class="space-y-1 text-slate-600">
+                            <li>§ Result of examination is specifically related to the sample as received.</li>
+                            <li>§ The water sample is used for Water Quality Monitoring.</li>
+                            <li>§ Heterotrophic Plate Count above Maximum Allowable Level.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Actions Section (Signature & Buttons) -->
+            <div class="px-8 pb-8 flex flex-col md:flex-row items-end justify-between gap-6 mt-4">
+                <div class="flex-1"></div> <!-- Spacer -->
+                
+                <!-- Signature Area -->
+                <div class="text-center w-full sm:w-72">
+                    <div class="border-b-2 border-rose-500 pb-1 mb-1 font-bold text-sm text-slate-800 bg-rose-50/50 rounded-t-lg">
+                        <input type="text" id="usernameInput" required placeholder="Please enter name *" class="w-full text-center text-xs text-rose-600 placeholder-rose-500 font-semibold bg-transparent outline-none">
+                    </div>
+                    <div class="text-[11px] font-bold text-slate-700 uppercase tracking-wider">Approve /Name <span class="text-rose-500">*</span></div>
+                    <div class="text-[9px] text-slate-400">Signature over Printed Name</div>
+                </div>
+
+                <!-- Buttons Area -->
+                <div class="flex gap-3 no-print">
+                    <button onclick="approveReport()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center shadow-lg transition">
+                        <i class="fa-solid fa-file-signature mr-2"></i> Approve
+                    </button>
+                    <button onclick="window.print()" class="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center shadow-lg transition">
+                        <i class="fa-solid fa-print mr-2"></i> Print Report
+                    </button>
+                </div>
+            </div>
+            
+            <script>
+                function approveReport() { 
+                    const name = document.getElementById('usernameInput').value;
+                    if (!name) {
+                        alert('Please enter the name.');
+                        return;
+                    }
+                    alert('Approve action triggered by: ' + name); 
+                }
+            </script>
+
+        </div>
+    </main>
+</body>
+</html>
