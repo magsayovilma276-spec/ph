@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAVY METALS - PHO-QATD LIMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1.5 rounded-xl text-slate-900 font-bold flex items-center justify-center w-10 h-10 shadow-sm">
+                    <i class="fa-solid fa-flask text-xl text-emerald-600"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm leading-tight">HEAVY METALS</h1>
+                    <p class="text-[10px] text-slate-400">Province of Surigao del Sur</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full h-full p-4 md:p-6">
+          <button onclick="closeHeavyMetalsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="heavy-metals-form-container">
+                <h2 class="text-xl font-bold text-slate-800 text-center pb-3 mb-6 border-b-2 border-indigo-500">
+                    Determination of Heavy Metals Inductively Coupled Plasma Method (SMEWW 3120 B)
+                </h2>
+
+                <form id="heavyMetalsRecordForm" onsubmit="handleHeavyMetalsFormSubmit(event)">
+                    <!-- Sample Analysis Record Table -->
+                    <h3 class="text-sm font-bold text-indigo-700 mt-6 mb-2 border-l-4 border-indigo-500 pl-2">Sample Analysis Record</h3>
+                    <div class="overflow-x-auto">
+                        <table id="heavyMetalsSampleTable" class="w-full text-left border-collapse border border-slate-300 text-xs mb-3">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800 text-center">
+                                    <th class="p-2 border border-slate-300" rowspan="2">Sample Code / ID</th>
+                                    <th class="p-2 border border-slate-300" rowspan="2">Volume Sample, mL</th>
+                                    <th class="p-2 border border-slate-300" rowspan="2">Dilution factor</th>
+                                    <th class="p-2 border border-slate-300" colspan="3">Actual Concentrations Reading, ppm</th>
+                                    <th class="p-2 border border-slate-300" colspan="3">Corrected, ppm</th>
+                                    <th class="p-2 border border-slate-300" colspan="3">Reported, ppm</th>
+                                    <th class="p-2 border border-slate-300" colspan="3">RSD, %</th>
+                                    <th class="p-2 border border-slate-300 w-20" rowspan="2">Action</th>
+                                </tr>
+                                <tr class="bg-slate-100 text-slate-800 text-center">
+                                    <th class="p-2 border border-slate-300">As</th><th>Cd</th><th>Pb</th>
+                                    <th class="p-2 border border-slate-300">As</th><th>Cd</th><th>Pb</th>
+                                    <th class="p-2 border border-slate-300">As</th><th>Cd</th><th>Pb</th>
+                                    <th class="p-2 border border-slate-300">As</th><th>Cd</th><th>Pb</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="sampleCode[]" id="heavy-metals-modal-sample-code" required class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="volumeSample[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="dilutionFactor[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="actAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="actCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="actPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="corrAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="corrCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="corrPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="repAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="repCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="repPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="rsdAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="rsdCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="rsdPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300 text-center"><button type="button" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="deleteRow(this)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded text-xs mb-6" onclick="addHeavyMetalsSampleRow()">+ Add Row</button>
+
+                    <!-- Quality Control Table -->
+                    <h3 class="text-sm font-bold text-indigo-700 mt-4 mb-2 border-l-4 border-indigo-500 pl-2">Quality Control</h3>
+                    <div class="overflow-x-auto">
+                        <table id="heavyMetalsQcTable" class="w-full text-left border-collapse border border-slate-300 text-xs mb-3">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th class="p-2 border border-slate-300">QC Sample Code</th>
+                                    <th class="p-2 border border-slate-300">QC Acceptable Value (s)</th>
+                                    <th class="p-2 border border-slate-300">Observed Result</th>
+                                    <th class="p-2 border border-slate-300">Remarks</th>
+                                    <th class="p-2 border border-slate-300 w-20 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="qcSampleCode[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="qcAcceptableValue[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="qcObservedResult[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300"><input type="text" name="qcRemarks[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                                    <td class="p-2 border border-slate-300 text-center"><button type="button" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="deleteRow(this)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded text-xs mb-6" onclick="addHeavyMetalsQcRow()">+ Add Row</button>
+
+                    <!-- Calculation and Interpretation -->
+                    <h3 class="text-sm font-bold text-indigo-700 mt-4 mb-2 border-l-4 border-indigo-500 pl-2">Calculation and Interpretation</h3>
+                    <textarea id="heavyMetalsCalc" name="calculation" maxlength="500" placeholder="Enter calculation and interpretation here (max 500 characters)..." oninput="updateHeavyMetalsCalcCharCount()" class="w-full h-24 p-2 border rounded border-slate-300 text-xs focus:outline-none focus:border-indigo-500"></textarea>
+                    <div class="text-right text-[11px] text-slate-500 mb-4"><span id="heavyMetalsCalcCharCount">0</span>/500 characters</div>
+
+                    <!-- Comments/Observations -->
+                    <h3 class="text-sm font-bold text-indigo-700 mt-4 mb-2 border-l-4 border-indigo-500 pl-2">Comments/Observations</h3>
+                    <textarea id="heavyMetalsComments" name="comments" maxlength="500" placeholder="Enter comments or observations here (max 500 characters)..." oninput="updateHeavyMetalsCommentsCharCount()" class="w-full h-24 p-2 border rounded border-slate-300 text-xs focus:outline-none focus:border-indigo-500"></textarea>
+                    <div class="text-right text-[11px] text-slate-500 mb-6"><span id="heavyMetalsCommentsCharCount">0</span>/500 characters</div>
+
+                    <!-- Signature Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-200 mb-6 text-xs">
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">Analyzed by:</h4>
+                            <label class="block font-medium text-slate-600">Analyst:</label>
+                            <input type="text" name="analystName" placeholder="Printed Name & Signature" class="w-full p-1.5 border rounded border-slate-300 focus:outline-none focus:border-indigo-500">
+                            <label class="block font-medium text-slate-600">Date:</label>
+                            <input type="text" name="analystDate" placeholder="YYYY-MM-DD" class="w-full p-1.5 border rounded border-slate-300 focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">Verified by:</h4>
+                            <label class="block font-medium text-slate-600">Technical Manager:</label>
+                            <input type="text" name="managerName" placeholder="Printed Name & Signature" class="w-full p-1.5 border rounded border-slate-300 focus:outline-none focus:border-indigo-500">
+                            <label class="block font-medium text-slate-600">Date:</label>
+                            <input type="text" name="managerDate" placeholder="YYYY-MM-DD" class="w-full p-1.5 border rounded border-slate-300 focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">Approved by:</h4>
+                            <label class="block font-medium text-slate-600">Quality Manager/ Laboratory Head:</label>
+                            <input type="text" name="approverName" placeholder="Printed Name & Signature" class="w-full p-1.5 border rounded border-slate-300 focus:outline-none focus:border-indigo-500">
+                            <label class="block font-medium text-slate-600">Date:</label>
+                            <input type="text" name="approverDate" placeholder="YYYY-MM-DD" class="w-full p-1.5 border rounded border-slate-300 focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded-lg text-xs tracking-wider uppercase shadow-md transition">
+                            Save / Submit Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+       
+    </main>
+</body>
+
+<!-- Script Logic -->
+    <script>
+    	  /* --- HEAVY METALS WORKSHEET Modal Functions --- */
+      
+        function closeHeavyMetalsModal() {
+            document.getElementById('heavy-metals-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateHeavyMetalsCalcCharCount() {
+            const textarea = document.getElementById('heavyMetalsCalc');
+            const charCount = document.getElementById('heavyMetalsCalcCharCount');
+            charCount.textContent = textarea.value.length;
+        }
+
+        function updateHeavyMetalsCommentsCharCount() {
+            const textarea = document.getElementById('heavyMetalsComments');
+            const charCount = document.getElementById('heavyMetalsCommentsCharCount');
+            charCount.textContent = textarea.value.length;
+        }
+
+        function addHeavyMetalsSampleRow() {
+            const tbody = document.querySelector("#heavyMetalsSampleTable tbody");
+            const newRow = tbody.insertRow();
+            newRow.innerHTML = `
+                <td class="p-2 border border-slate-300"><input type="text" name="sampleCode[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="volumeSample[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="dilutionFactor[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="actAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="actCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="actPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="corrAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="corrCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="corrPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="repAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="repCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="repPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="rsdAs[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="rsdCd[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="rsdPb[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300 text-center"><button type="button" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="deleteRow(this)">Delete</button></td>
+            `;
+        }
+
+        function addHeavyMetalsQcRow() {
+            const tbody = document.querySelector("#heavyMetalsQcTable tbody");
+            const newRow = tbody.insertRow();
+            newRow.innerHTML = `
+                <td class="p-2 border border-slate-300"><input type="text" name="qcSampleCode[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="qcAcceptableValue[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="qcObservedResult[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300"><input type="text" name="qcRemarks[]" class="w-full p-1 border rounded border-slate-300 focus:outline-none focus:border-indigo-500"></td>
+                <td class="p-2 border border-slate-300 text-center"><button type="button" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="deleteRow(this)">Delete</button></td>
+            `;
+        }
+
+        function handleHeavyMetalsFormSubmit(event) {
+            event.preventDefault();
+            alert('Heavy Metals Worksheet Form saved successfully!');
+            closeHeavyMetalsModal();
+        }
+    	
+    	 function deleteRow(button) {
+            const row = button.parentNode.parentNode;
+            const table = row.parentNode;
+            if (table.rows.length > 1) {
+                row.parentNode.removeChild(row);
+            } else {
+                alert("At least one row must be kept.");
+            }
+        }
+    </script>
+</html>
